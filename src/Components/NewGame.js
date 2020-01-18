@@ -30,21 +30,21 @@ export default class NewGame extends Component {
 	}
 	fbLogin = (scores) => { }
 	responseFacebook = (response) => {
+
 		this.setState({
 			loading: true,
 			userFB: response
 		});
 		const userData = this.state.userFB ? {
-			facebook_alias: "danghailochp",
-			facebook_id: null,
+			facebook_alias: null,
+			facebook_id: this.state.userFB.id,
 			deep_level: "fast"
 		} : "";
-		console.log("userData", userData);
+		
 
 		if (userData) {
 			axios.post(`${ROOT_API}/api/anaRoute`, userData).then(response => {
 				if (response) {
-					console.log("response.data", response);
 					if (response.data.success) {
 						this.setState({
 							images: JSON.parse(response.data.body),
