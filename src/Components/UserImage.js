@@ -14,8 +14,11 @@ class UserImage extends Component {
 
     }
     componentDidMount() {
-
-        axios.post(`${ROOT_API}/api/anaRoute`, this.props.user.id).then(response => {
+        const userData =  {
+            facebook_alias: null,
+            facebook_id: this.props.user.id
+        } ;
+        axios.post(`${ROOT_API}/api/anaRoute`, userData).then(response => {
             if (response) {
                 console.log("response2 ", response);
                 this.setState({ avatar: response.data.avatar });
@@ -32,7 +35,7 @@ class UserImage extends Component {
             <div className="box" >
                 <div className=" d-flex justify-content-center">
                     {this.props.index < 5 ? <h3>Top {this.props.index}</h3> : <h3> </h3>}
-                
+
                 </div>
 
                 <img className="user_image"
