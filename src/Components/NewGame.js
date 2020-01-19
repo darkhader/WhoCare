@@ -64,7 +64,7 @@ export default class NewGame extends Component {
 
 			}).catch(error => {
 
-
+				console.log(error)
 
 
 			});
@@ -73,9 +73,8 @@ export default class NewGame extends Component {
 
 	}
 	render() {
-		const displayedImages = this.state.images.slice(0, 9).map((user, index) => (
-			<div key={user.id} className="col-4 mb-4 ">
-
+		const displayedImages = this.state.images.slice(0, 12).map((user, index) => (
+			<div key={user.id} className="col-2 mb-4 d-flex justify-content-center">
 				<UserImage
 					hiddenReview={true}
 					user={user}

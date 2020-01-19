@@ -2,25 +2,37 @@ import React, { Component } from "react";
 
 import { ROOT_API } from '../statics';
 import axios from "../axios";
-
+import Loading from "./Loading";
 class UserImage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            avatar: "100002748713372",
+            avatar: "http://graph.facebook.com/100002748713372/picture?type=large",
+            loading: false
         }
 
 
     }
     componentDidMount() {
-        const userData =  {
-            facebook_alias: this.props.user.id,
+        this.setState({
+            loading: true,
+        });
+        const userData = {
+            facebook_alias: this.props.user.data.id,
             facebook_id: null
-        } ;
-        axios.post(`${ROOT_API}/api/anaRoute`, userData).then(response => {
-            if (response) {
-                this.setState({ avatar: response.data.avatar });
+        };
+     
+
+
+        axios.post(`${ROOT_API}/api/userRoute`, userData).then(response => {
+            if (response.data.success) {
+            
+
+                this.setState({
+                    avatar: JSON.parse(response.data.body).avatar,
+                    loading: false
+                });
             }
         }).catch(error => {
             console.log(error)
@@ -28,19 +40,20 @@ class UserImage extends Component {
 
     }
     render() {
-
+        const { loading } = this.state;
 
         return (
             <div className="box" >
-                <div className=" d-flex justify-content-center">
-                    {this.props.index < 4 ? <h3>Top {this.props.index}</h3> : <h3> </h3>}
+                <div className="">
+                    {this.props.index < 13 ? <h3>Top {this.props.index}</h3> : <h3> </h3>}
 
                 </div>
-
-                <img className="user_image"
-                    className=""
-                    src={`http://graph.facebook.com/${this.state.avatar}/picture?type=large`}
-                />
+                {loading ? <div className="text-center"><Loading /></div> :
+                    <img className="user_image"
+                        className=""
+                        src={this.state.avatar}
+                    />
+                }
                 <div className="text">
                     <p>{this.props.user.name}</p>
                 </div>
