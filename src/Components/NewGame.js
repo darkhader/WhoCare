@@ -22,10 +22,6 @@ export default class NewGame extends Component {
 
 	}
 	componentDidMount() {
-		this.responseFacebook();
-
-
-
 
 	}
 	fbLogin = (scores) => { }
