@@ -79,14 +79,19 @@ class UserImage extends Component {
                             <span className="top">{this.props.index}.</span>
 
                         </div>}
+
                     {loading ? <div className="text-center"><Loading /></div> :
-                        <img className="user_image"
-                            src={this.state.avatar}
-                        />
+                        <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
+                            <img className="user_image"
+                                src={this.state.avatar}
+                            />
+                        </a>
                     }
                     {this.props.user ?
                         <div className=" ml-2 text d-flex justify-content-center align-items-center">
-                            <span className="name">{this.props.user.name}</span>
+                            <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
+                                <span className="name">{this.props.user.name}</span>
+                            </a>
                         </div>
                         : ""
                     }
