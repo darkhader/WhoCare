@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import './loading.css'
+import logo from './lixi.png'
 export default class Loading extends Component {
   render(props) {
     return (
       this.props.userImage ?
-        <div>
-          <div className="lds-hourglass">
-          </div>
+        <div >
+          <img className="lixi" style={{width:"100px", height:"100px" }} src={logo} />
           <p>Xin đợi trong ít phút </p>
         </div>
         :
-        <div className="lds-hourglass">
+        <div >
+          <img className="lixi" style={{width:"100px", height:"100px" }} src={logo} />
         </div>
+
     )
   }
 }

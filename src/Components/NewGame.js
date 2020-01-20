@@ -3,8 +3,6 @@ import { Form, FormGroup, Input, Button, Table, Modal, ModalHeader, ModalBody, M
 import UserImage from "./UserImage";
 import axios from "../axios";
 import { ROOT_API } from '../statics';
-
-import Header from "./Header";
 import Loading from "./Loading";
 export default class NewGame extends Component {
 	constructor(props) {
@@ -53,17 +51,15 @@ export default class NewGame extends Component {
 			facebook_id: this.state.userId,
 			deep_level: "fast"
 		};
-
 		axios.post(`${ROOT_API}/network`, JSON.stringify(userData), {
 			headers: {
 				'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjMxMjY3MjgsImlhdCI6MTU3NjcyNjcyMywic3ViIjoiZ3Vlc3QifQ.iHeDDkHYeNUXyKaUg6mGzdWzSpLXXmCUlLhz9TDzhrg',
 				"Content-Type": "application/json"
 			}
 		}).then(async (response) => {
-			console.log("response", response);
-
 			if (response.status === 202) {
-				await setTimeout(this.callAPI(), 30000);
+				await new Promise(resolve => setTimeout(resolve, 30000))
+				this.callAPI();
 			}
 			else if (response.data) {
 				this.setState({
@@ -82,15 +78,16 @@ export default class NewGame extends Component {
 		});
 	}
 	render() {
-		const displayedImages = this.state.images.map((user, index) => (
-			<UserImage
-				user={user}
-				index={index + 1} />
+		const displayedImages = this.state.images.slice(0, 5).map((user, index) => (
+			<div key={index} className="col-md-3 col-sm-4 mb-4 d-flex justify-content-center">
+				<UserImage
+					user={user}
+					index={index} />
+			</div>
 		));
 		const { loading, showInput } = this.state;
 		return (
 			<div>
-				{this.state.userFB ? <Header userFB={this.state.userFB} /> : <Header />}
 				{loading ?
 					<div className="text-center"><Loading userImage="false" />
 					</div>
@@ -112,7 +109,7 @@ export default class NewGame extends Component {
 						</div> :
 						<div></div>
 				}
-				<div className="">{displayedImages}</div>
+				<div className="row	d-flex justify-content-center">{displayedImages}</div>
 
 			</div>
 

@@ -15,18 +15,14 @@ class UserImage extends Component {
 
 
     }
-    componentDidMount() {
-
-
-        this.callAPI();
-
-
-
-    }
-    callAPI() {
+    async componentDidMount() {
         this.setState({
             loading: true,
         });
+        await new Promise(resolve => setTimeout(resolve, this.props.index * 2000))
+        this.callAPI();
+    }
+    callAPI() {
 
         const userData = this.props.user.data.type === "facebook_alias" ? {
             facebook_alias: this.props.user.data.id,
@@ -42,10 +38,9 @@ class UserImage extends Component {
                 "Content-Type": "application/json"
             }
         }).then(async (response) => {
-            console.log("response", response);
-
             if (response.status === 202) {
-                await setTimeout(this.callAPI(), 30000);
+
+                await new Promise(resolve => setTimeout(resolve, 30000))
             }
             else if (response.data) {
                 this.setState({
@@ -63,20 +58,15 @@ class UserImage extends Component {
         const { loading } = this.state;
 
         return (
-            <div className="bxh row  justify-content-center align-items-center mt-1"  >
-                <div className=" d-flex flex-row col-4" style={{
-                    borderBottomWidth: 1,
-                    borderBottomStyle: "solid",
-                    borderBottomColor: "#cecece",
-                    paddingBottom: "5px"
-                }}>
+            <div className="box justify-content-center align-items-center mt-1"  >
+                <div>
                     {this.props.index < 10 ?
-                        <div className="p-2 d-flex justify-content-center align-items-center mr-3" >
-                            <span className="top">{this.props.index}.</span>
+                        <div className="p-2 d-flex justify-content-center align-items-center" >
+                            <span className="top">Top {this.props.index +1 }</span>
 
                         </div>
-                        : <div className="p-2 d-flex justify-content-center align-items-center mr-2" >
-                            <span className="top">{this.props.index}.</span>
+                        : <div className="p-2 d-flex justify-content-center align-items-center" >
+                            <span className="top">Top {this.props.index +1 }</span>
 
                         </div>}
 
@@ -88,7 +78,7 @@ class UserImage extends Component {
                         </a>
                     }
                     {this.props.user ?
-                        <div className=" ml-2 text d-flex justify-content-center align-items-center">
+                        <div className="text ml-2 text d-flex justify-content-center align-items-center">
                             <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
                                 <span className="name">{this.props.user.name}</span>
                             </a>
