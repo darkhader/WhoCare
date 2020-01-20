@@ -14,13 +14,14 @@ export default class NewGame extends Component {
 			images: [],
 			userFB: "",
 			loading: false,
+			showInput: true,
 			userAlias: null,
 			userId: null
 		}
 
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-
+		this.callAPI = this.callAPI.bind(this);
 
 	}
 	componentDidMount() {
@@ -29,8 +30,6 @@ export default class NewGame extends Component {
 	handleInputChange(event) {
 
 		if (isNaN(event.target.value)) {
-
-
 			this.setState({ userAlias: event.target.value });
 		} else {
 			this.setState({ userId: event.target.value });
@@ -41,76 +40,80 @@ export default class NewGame extends Component {
 		event.preventDefault();
 
 		this.setState({
+			showInput: false,
 			loading: true,
 		});
+		this.callAPI();
+
+
+	}
+	callAPI() {
 		const userData = {
 			facebook_alias: this.state.userAlias,
 			facebook_id: this.state.userId,
 			deep_level: "fast"
 		};
-			axios.post(`${ROOT_API}/api/anaRoute`, userData).then(response => {
-				if (response) {
-				
-					
-					if (response.data.success) {
-						this.setState({
-							images: JSON.parse(response.data.body),
-							loading: false
-						});
-					}
+
+		axios.post(`${ROOT_API}/network`, JSON.stringify(userData), {
+			headers: {
+				'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjMxMjY3MjgsImlhdCI6MTU3NjcyNjcyMywic3ViIjoiZ3Vlc3QifQ.iHeDDkHYeNUXyKaUg6mGzdWzSpLXXmCUlLhz9TDzhrg',
+				"Content-Type": "application/json"
+			}
+		}).then(async (response) => {
+			console.log("response", response);
+
+			if (response.status === 202) {
+				await setTimeout(this.callAPI(), 30000);
+			}
+			else if (response.data) {
+				this.setState({
+					images: response.data,
+					loading: false,
+				})
 
 
-				}
+			}
 
-			}).catch(error => {
+		}).catch(error => {
 
-				console.log(error)
-
-
-			});
-		
+			console.log(error)
 
 
+		});
 	}
 	render() {
-		const displayedImages = this.state.images.slice(0, 12).map((user, index) => (
-			<div key={user.id} className="col-2 mb-4 d-flex justify-content-center">
-				<UserImage
-					hiddenReview={true}
-					user={user}
-					index={index + 1} />
-
-			</div>
+		const displayedImages = this.state.images.map((user, index) => (
+			<UserImage
+				user={user}
+				index={index + 1} />
 		));
-		const { loading } = this.state;
+		const { loading, showInput } = this.state;
 		return (
 			<div>
 				{this.state.userFB ? <Header userFB={this.state.userFB} /> : <Header />}
-				{loading ? <div className="text-center"><Loading /></div>
-					:
-					<div className=" d-flex justify-content-center">
-						<Form className=" d-flex flex-column align-items-start" onSubmit={this.handleSubmit}>
-							<h3 className="">Điền facebookID của bạn:</h3>
-							<span>VD:  https://facebook.com/hoanghiep, <br />
-								https://www.facebook.com/profile.php?id=123</span>
-							<div className="d-flex flex-row align-items-start mt-2 mr-2" >
-								<FormGroup className="mr-3">
-
-
-									<Input
-										placeholder="hoanghiep hoặc 123"
-										onChange={this.handleInputChange}
-
-									/>
-								</FormGroup>
-								<button	 className="btn btn-primary">Tìm Kiếm</button>
-							</div>
-						</Form>
-
-						
+				{loading ?
+					<div className="text-center"><Loading userImage="false" />
 					</div>
+					:
+					showInput === true ?
+						<div className=" d-flex justify-content-center">
+							<Form className=" d-flex flex-column align-items-start" onSubmit={this.handleSubmit}>
+								<div className="d-flex flex-row align-items-start mt-2 mr-2" >
+									<FormGroup className="mr-3">
+										<Input
+											onChange={this.handleInputChange}
+										/>
+									</FormGroup>
+									<button className="btn btn-primary">Tìm Kiếm</button>
+								</div>
+							</Form>
+
+
+						</div> :
+						<div></div>
 				}
-				<div className="row">{displayedImages}</div>
+				<div className="">{displayedImages}</div>
+
 			</div>
 
 		);

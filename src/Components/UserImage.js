@@ -8,32 +8,52 @@ class UserImage extends Component {
         super(props);
 
         this.state = {
-            avatar: "http://graph.facebook.com/100002748713372/picture?type=large",
+            avatar: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.0-1/cp0/e15/q65/p74x74/49199910_1706447986123475_1225033374146494464_n.jpg?_nc_cat=109&efg=eyJpIjoiYiJ9&_nc_oc=AQm3_tBUmkcZmQfme7y95deWoamDkEYNuQgXB4uC2cPN6VcfnIJpJxvEoCh3Ha0FEzU&_nc_ht=scontent.fsgn2-4.fna&oh=0b67410c6a4f2844d49b7c730d64a49d&oe=5ED02FF6",
             loading: false
         }
+        this.callAPI = this.callAPI.bind(this);
 
 
     }
     componentDidMount() {
+
+
+        this.callAPI();
+
+
+
+    }
+    callAPI() {
         this.setState({
             loading: true,
         });
-        const userData = {
+
+        const userData = this.props.user.data.type === "facebook_alias" ? {
             facebook_alias: this.props.user.data.id,
             facebook_id: null
-        };
-     
+        } :
+            {
+                facebook_alias: null,
+                facebook_id: this.props.user.data.id
+            };
+        axios.post(`${ROOT_API}/profile`, JSON.stringify(userData), {
+            headers: {
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjMxMjY3MjgsImlhdCI6MTU3NjcyNjcyMywic3ViIjoiZ3Vlc3QifQ.iHeDDkHYeNUXyKaUg6mGzdWzSpLXXmCUlLhz9TDzhrg',
+                "Content-Type": "application/json"
+            }
+        }).then(async (response) => {
+            console.log("response", response);
 
-
-        axios.post(`${ROOT_API}/api/userRoute`, userData).then(response => {
-            if (response.data.success) {
-            
-
+            if (response.status === 202) {
+                await setTimeout(this.callAPI(), 30000);
+            }
+            else if (response.data) {
                 this.setState({
-                    avatar: JSON.parse(response.data.body).avatar,
+                    avatar: response.data.avatar,
                     loading: false
                 });
             }
+
         }).catch(error => {
             console.log(error)
         });
@@ -43,19 +63,33 @@ class UserImage extends Component {
         const { loading } = this.state;
 
         return (
-            <div className="box" >
-                <div className="">
-                    {this.props.index < 13 ? <h3>Top {this.props.index}</h3> : <h3> </h3>}
+            <div className="bxh row  justify-content-center align-items-center mt-1"  >
+                <div className=" d-flex flex-row col-4" style={{
+                    borderBottomWidth: 1,
+                    borderBottomStyle: "solid",
+                    borderBottomColor: "#cecece",
+                    paddingBottom: "5px"
+                }}>
+                    {this.props.index < 10 ?
+                        <div className="p-2 d-flex justify-content-center align-items-center mr-3" >
+                            <span className="top">{this.props.index}.</span>
 
-                </div>
-                {loading ? <div className="text-center"><Loading /></div> :
-                    <img className="user_image"
-                        className=""
-                        src={this.state.avatar}
-                    />
-                }
-                <div className="text">
-                    <p>{this.props.user.name}</p>
+                        </div>
+                        : <div className="p-2 d-flex justify-content-center align-items-center mr-2" >
+                            <span className="top">{this.props.index}.</span>
+
+                        </div>}
+                    {loading ? <div className="text-center"><Loading /></div> :
+                        <img className="user_image"
+                            src={this.state.avatar}
+                        />
+                    }
+                    {this.props.user ?
+                        <div className=" ml-2 text d-flex justify-content-center align-items-center">
+                            <span className="name">{this.props.user.name}</span>
+                        </div>
+                        : ""
+                    }
                 </div>
 
             </div>

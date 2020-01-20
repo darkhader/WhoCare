@@ -1,2 +1,2 @@
 //confix link
-export const ROOT_API = "https://localhost:9999";
+export const ROOT_API = "https://reader_habit.ngrok.io/v1/facebook/user";
