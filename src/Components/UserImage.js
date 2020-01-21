@@ -40,7 +40,7 @@ class UserImage extends Component {
         }).then(async (response) => {         
             if (response.status === 202) {
 
-                await new Promise(resolve => setTimeout(resolve, 10000))
+                await new Promise(resolve => setTimeout(resolve, 20000))
                 this.callAPI();
             }
             else if (response.data) {
