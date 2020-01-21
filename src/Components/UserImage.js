@@ -81,6 +81,7 @@ class UserImage extends Component {
                         <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
                             <img className="user_image"
                                 src={this.state.avatar}
+                                rel="anh"
                             />
                         </a>
                     }

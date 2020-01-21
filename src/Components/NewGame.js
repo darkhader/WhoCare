@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Input, Button, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, FormGroup, Input } from 'reactstrap';
 import UserImage from "./UserImage";
 import axios from "../axios";
 import { ROOT_API } from '../statics';
@@ -20,10 +20,11 @@ export default class NewGame extends Component {
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.callAPI = this.callAPI.bind(this);
+		this.postFB = this.postFB.bind(this);
 
 	}
 	componentDidMount() {
-
+	
 	}
 	handleInputChange(event) {
 
@@ -77,6 +78,21 @@ export default class NewGame extends Component {
 
 		});
 	}
+	postFB() {
+		window.FB.ui({
+			method: 'share',
+			href: 'https://bangtin.vn/ai-quan-tam-nhat',
+			quote: `Những người quan tâm đến tôi nhất:
+			Top 1: ${this.state.images.slice(0, 5)[0].name} 
+			Top 2: ${this.state.images.slice(0, 5)[1].name} 
+			Top 3: ${this.state.images.slice(0, 5)[2].name}
+			Top 4: ${this.state.images.slice(0, 5)[3].name}
+			Top 5: ${this.state.images.slice(0, 5)[4].name}`
+
+		}, function (response) { })
+
+
+	}
 	render() {
 		const displayedImages = this.state.images.slice(0, 5).map((user, index) => (
 			<div key={index} className="col-md-3 col-sm-4 mb-4 d-flex justify-content-center">
@@ -88,6 +104,10 @@ export default class NewGame extends Component {
 		const { loading, showInput } = this.state;
 		return (
 			<div>
+
+
+
+
 				{loading ?
 					<div className="text-center"><Loading userImage="false" />
 					</div>
@@ -107,9 +127,13 @@ export default class NewGame extends Component {
 
 
 						</div> :
-						<div></div>
+						<div className="text-center" >
+							<div className="row	d-flex justify-content-center">{displayedImages}</div>
+							<button className="btn btn-primary " onClick={this.postFB}>Chia sẻ lên Facebook</button>
+						</div>
 				}
-				<div className="row	d-flex justify-content-center">{displayedImages}</div>
+
+
 
 			</div>
 
