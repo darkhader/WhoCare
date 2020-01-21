@@ -67,15 +67,10 @@ class UserImage extends Component {
         return (
             <div className="box justify-content-center align-items-center mt-1"  >
                 <div>
-                    {this.props.index < 10 ?
-                        <div className="p-2 d-flex justify-content-center align-items-center" >
-                            <span className="top">Top {this.props.index + 1}</span>
+                    <div className="p-2 d-flex justify-content-center align-items-center" >
+                        <span className="top">Top {this.props.index + 1}</span>
 
-                        </div>
-                        : <div className="p-2 d-flex justify-content-center align-items-center" >
-                            <span className="top">Top {this.props.index + 1}</span>
-
-                        </div>}
+                    </div>
 
                     {loading ? <div className="text-center"><Loading /></div> :
                         <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
@@ -85,14 +80,12 @@ class UserImage extends Component {
                             />
                         </a>
                     }
-                    {this.props.user ?
-                        <div className="text ml-2 text d-flex justify-content-center align-items-center">
-                            <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
-                                <span className="name">{this.props.user.name}</span>
-                            </a>
-                        </div>
-                        : ""
-                    }
+                    <div className="text ml-2 text d-flex justify-content-center align-items-center">
+                        <a className="linkfb" target="_blank" href={`https://www.facebook.com/${this.props.user.data.id}`} >
+                            <span className="name">{this.props.user.name}</span>
+                        </a>
+                    </div>
+
                 </div>
 
             </div>

@@ -129,7 +129,7 @@ export default class NewGame extends Component {
 						</div> :
 						<div className="text-center" >
 							<div className="row	d-flex justify-content-center">{displayedImages}</div>
-							<button className="btn btn-primary " onClick={this.postFB}>Chia sẻ lên Facebook</button>
+							<button className="btn btnshare mt-4"onClick={this.postFB}><span className="shareText">Chia sẻ lên Facebook</span></button>
 						</div>
 				}
 

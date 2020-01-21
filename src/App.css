@@ -40,11 +40,11 @@
     right: 0;
     text-align: center;
     top: 93%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(52, 89, 149);
     font-family: Arial, sans-serif;
     color: #fff;
     width: 150%;
-    height: 20%;
+    height: 30%;
 }
 
 .avaFB {
@@ -70,4 +70,12 @@
 
 .linkfb:hover {
     text-decoration: none;
+}
+
+.btnshare {
+    background-color: #CA1551!important;
+}
+
+.shareText {
+    color: white;
 }
