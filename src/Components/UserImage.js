@@ -8,7 +8,7 @@ class UserImage extends Component {
         super(props);
 
         this.state = {
-            avatar: "https://res.cloudinary.com/teepublic/image/private/s--p3xh8d8B--/c_crop,x_10,y_10/c_fit,h_1109/c_crop,g_north_west,h_1260,w_1260,x_-228,y_-70/co_rgb:ffffff,e_colorize,u_Misc:One%20Pixel%20Gray/c_scale,g_north_west,h_1260,w_1260/fl_layer_apply,g_north_west,x_-228,y_-70/bo_157px_solid_white/e_overlay,fl_layer_apply,h_1260,l_Misc:Art%20Print%20Bumpmap,w_1260/e_shadow,x_6,y_6/c_limit,h_1134,w_1134/c_lpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1558628658/production/designs/4911172_0.jpg",
+            avatar: "https://goldviet24k.vn/pic/News/images/chuot-vang/canh-ty-2020-co-phai-chuot-vang-khong.jpg?fbclid=IwAR1lBAzkVdQembH1jx01ebAjLy6msF17GavYpTYdq2KHxbymNZwY8Vfsvw0",
             loading: false
         }
         this.callAPI = this.callAPI.bind(this);
