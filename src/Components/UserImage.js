@@ -8,7 +8,7 @@ class UserImage extends Component {
         super(props);
 
         this.state = {
-            avatar: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.0-1/cp0/e15/q65/p74x74/49199910_1706447986123475_1225033374146494464_n.jpg?_nc_cat=109&efg=eyJpIjoiYiJ9&_nc_oc=AQm3_tBUmkcZmQfme7y95deWoamDkEYNuQgXB4uC2cPN6VcfnIJpJxvEoCh3Ha0FEzU&_nc_ht=scontent.fsgn2-4.fna&oh=0b67410c6a4f2844d49b7c730d64a49d&oe=5ED02FF6",
+            avatar: "https://res.cloudinary.com/teepublic/image/private/s--p3xh8d8B--/c_crop,x_10,y_10/c_fit,h_1109/c_crop,g_north_west,h_1260,w_1260,x_-228,y_-70/co_rgb:ffffff,e_colorize,u_Misc:One%20Pixel%20Gray/c_scale,g_north_west,h_1260,w_1260/fl_layer_apply,g_north_west,x_-228,y_-70/bo_157px_solid_white/e_overlay,fl_layer_apply,h_1260,l_Misc:Art%20Print%20Bumpmap,w_1260/e_shadow,x_6,y_6/c_limit,h_1134,w_1134/c_lpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_jpg,h_630,q_90,w_630/v1558628658/production/designs/4911172_0.jpg",
             loading: false
         }
         this.callAPI = this.callAPI.bind(this);
@@ -37,17 +37,23 @@ class UserImage extends Component {
                 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjMxMjY3MjgsImlhdCI6MTU3NjcyNjcyMywic3ViIjoiZ3Vlc3QifQ.iHeDDkHYeNUXyKaUg6mGzdWzSpLXXmCUlLhz9TDzhrg',
                 "Content-Type": "application/json"
             }
-        }).then(async (response) => {         
+        }).then(async (response) => {
             if (response.status === 202) {
 
                 await new Promise(resolve => setTimeout(resolve, 20000))
                 this.callAPI();
             }
             else if (response.data) {
-                this.setState({
-                    avatar: response.data.avatar,
-                    loading: false
-                });
+                if (response.data.avatar) {
+                    this.setState({
+                        avatar: response.data.avatar,
+                        loading: false
+                    });
+                }
+                else
+                    this.setState({
+                        loading: false
+                    });
             }
 
         }).catch(error => {
