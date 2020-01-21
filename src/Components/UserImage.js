@@ -37,10 +37,11 @@ class UserImage extends Component {
                 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjMxMjY3MjgsImlhdCI6MTU3NjcyNjcyMywic3ViIjoiZ3Vlc3QifQ.iHeDDkHYeNUXyKaUg6mGzdWzSpLXXmCUlLhz9TDzhrg',
                 "Content-Type": "application/json"
             }
-        }).then(async (response) => {
+        }).then(async (response) => {         
             if (response.status === 202) {
 
-                await new Promise(resolve => setTimeout(resolve, 30000))
+                await new Promise(resolve => setTimeout(resolve, 10000))
+                this.callAPI();
             }
             else if (response.data) {
                 this.setState({
@@ -62,11 +63,11 @@ class UserImage extends Component {
                 <div>
                     {this.props.index < 10 ?
                         <div className="p-2 d-flex justify-content-center align-items-center" >
-                            <span className="top">Top {this.props.index +1 }</span>
+                            <span className="top">Top {this.props.index + 1}</span>
 
                         </div>
                         : <div className="p-2 d-flex justify-content-center align-items-center" >
-                            <span className="top">Top {this.props.index +1 }</span>
+                            <span className="top">Top {this.props.index + 1}</span>
 
                         </div>}
 
