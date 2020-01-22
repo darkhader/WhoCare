@@ -88,7 +88,7 @@ export default class NewGame extends Component {
 		window.FB.ui({
 			method: 'share',
 			href: 'https://bangtin.vn/ai-quan-tam-nhat',
-			quote: `Những người quan tâm đến tôi nhất:
+			quote: `Những người lặng thầm quan tâm tôi trong suốt năm Kỷ Hợi là:
 			Top 1: ${this.state.images.slice(0, 5)[0].name} 
 			Top 2: ${this.state.images.slice(0, 5)[1].name} 
 			Top 3: ${this.state.images.slice(0, 5)[2].name}
