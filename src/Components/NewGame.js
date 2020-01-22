@@ -24,7 +24,7 @@ export default class NewGame extends Component {
 
 	}
 	componentDidMount() {
-	
+
 	}
 	handleInputChange(event) {
 
@@ -58,17 +58,23 @@ export default class NewGame extends Component {
 				"Content-Type": "application/json"
 			}
 		}).then(async (response) => {
+			console.log(response);
+
 			if (response.status === 202) {
 				await new Promise(resolve => setTimeout(resolve, 60000))
 				this.callAPI();
 			}
-			else if (response.data) {
+			if (response.status === 500) {
+				alert("Không tìm được người dùng")
+				this.setState({
+					loading: false,
+				})
+			}
+			else if (response.status === 200) {
 				this.setState({
 					images: response.data,
 					loading: false,
 				})
-
-
 			}
 
 		}).catch(error => {
@@ -94,13 +100,15 @@ export default class NewGame extends Component {
 
 	}
 	render() {
-		const displayedImages = this.state.images.slice(0, 5).map((user, index) => (
+		const displayedImages = Array.isArray(this.state.images) ? this.state.images.slice(0, 5).map((user, index) => (
 			<div key={index} className="col-md-3 col-sm-4 mb-4 d-flex justify-content-center">
 				<UserImage
 					user={user}
 					index={index} />
 			</div>
-		));
+		)) : "";
+
+
 		const { loading, showInput } = this.state;
 		return (
 			<div>
@@ -129,7 +137,7 @@ export default class NewGame extends Component {
 						</div> :
 						<div className="text-center" >
 							<div className="row	d-flex justify-content-center">{displayedImages}</div>
-							<button className="btn btnshare mt-4"onClick={this.postFB}><span className="shareText">Chia sẻ lên Facebook</span></button>
+							<button className="btn btnshare mt-4" onClick={this.postFB}><span className="shareText">Chia sẻ lên Facebook</span></button>
 						</div>
 				}
 
